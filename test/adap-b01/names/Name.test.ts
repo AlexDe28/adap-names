@@ -49,10 +49,10 @@ describe("Escape character in whole string", () => {
     // Original name string = "oss.cs.fau.de"
     let n: Name = new Name(["oss\\.cs.fau.de"], '.');
     expect(n.getNoComponents()).toBe(3);
-    expect(n.asString()).toBe("oss\\.cs.fau.de");
+    expect(n.asString()).toBe("oss.cs.fau.de");
     
     n.append("people");
-    expect(n.asString()).toBe("oss\\.cs.fau.de.people");
+    expect(n.asString()).toBe("oss.cs.fau.de.people");
     expect(n.getNoComponents()).toBe(4);
   });
 });

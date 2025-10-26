@@ -24,16 +24,13 @@ export class Name {
 
         let currentComponent: string = "";
         let escaped: boolean = false;
-        console.log(other);
+
         for(let idx_component in other){
             let component: string = other[idx_component];
             for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
                 if (component[idx_letter]==this.delimiter){
-                    console.log("Delimiter");
                     if (escaped){
-                        console.log("And Escaped");
                         currentComponent = currentComponent + component[idx_letter-1] + component[idx_letter];
-                        console.log(currentComponent);
                     }
                     else {
                         this.components = this.components.concat(currentComponent);
@@ -44,8 +41,6 @@ export class Name {
 
                 if (component[idx_letter]==ESCAPE_CHARACTER)escaped = true;
                 else escaped = false;
-                console.log(component[idx_letter])
-                console.log(escaped);
             }
             this.components = this.components.concat(currentComponent);
             currentComponent = "";
