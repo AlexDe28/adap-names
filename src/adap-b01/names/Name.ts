@@ -24,11 +24,10 @@ export class Name {
     /** @methodtype Initialisation-method */
     constructor(other: string[], delimiter?: string) {
         if(delimiter) this.delimiter = delimiter;
-        let currentComponent: string = "";
-        let escaped: boolean = false;
 
         for(let idx_component in other){
             let component: string = other[idx_component];
+            let currentComponent: string = "";
             for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
                 if(component[idx_letter]==this.delimiter){
                     this.components = this.components.concat(currentComponent);
@@ -47,7 +46,6 @@ export class Name {
 
             }
             this.components = this.components.concat(currentComponent);
-            currentComponent = "";
         }
     }
 
@@ -60,7 +58,18 @@ export class Name {
     public asString(delimiter: string = this.delimiter): string {
         let outputComponents: string[] = [];
         for(let idx_component in this.components){
-            outputComponents.push(this.components[idx_component].replaceAll('\\'+this.delimiter, this.delimiter))
+            let component: string = this.components[idx_component];
+            let outputComponent: string = "";
+            for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
+                 if(component[idx_letter]===ESCAPE_CHARACTER){
+                    //Skip first appearance of escape character
+                    idx_letter += 1;
+                    if(idx_letter < component.length)outputComponent += component[idx_letter]
+                 }
+                 else outputComponent += component[idx_letter]
+            }
+            outputComponents.push(outputComponent);
+            
         }
         return outputComponents.join(delimiter);
     }
@@ -72,7 +81,7 @@ export class Name {
      */
     /** @methodtype Conversion-method */
     public asDataString(): string {
-        return this.components.join(DEFAULT_DELIMITER);
+        return this.components.join(this.delimiter);
     }
 
     /** Returns properly masked component string */
@@ -96,15 +105,51 @@ export class Name {
     /** Expects that new Name component c is properly masked */
     /** @methodtype set-method */
     public insert(i: number, c: string): void {
-        //TODO
-        this.components.splice(i, 0, c);
+        let addComponents: string[] = [];
+        let component: string = c;
+        let currentComponent: string = "";
+        for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
+            if(component[idx_letter]==this.delimiter){
+                addComponents = addComponents.concat(currentComponent);
+                currentComponent = "";
+            }
+            else if(component[idx_letter]===ESCAPE_CHARACTER){
+                if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                    //Delimiter is to be escaped
+                    currentComponent += component[idx_letter] + component[idx_letter+1];
+                    idx_letter += 1;
+                }
+                else currentComponent += component[idx_letter];
+            }
+            else currentComponent += component[idx_letter];
+        }
+        addComponents = addComponents.concat(currentComponent);
+        this.components.splice(i, 0, ...addComponents);
     }
 
     /** Expects that new Name component c is properly masked */
     /** @methodtype set-method */
     public append(c: string): void {
-        //TODO
-        this.components.push(c);
+        let addComponents: string[] = [];
+        let component: string = c;
+        let currentComponent: string = "";
+        for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
+            if(component[idx_letter]==this.delimiter){
+                addComponents = addComponents.concat(currentComponent);
+                currentComponent = "";
+            }
+            else if(component[idx_letter]===ESCAPE_CHARACTER){
+                if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                    //Delimiter is to be escaped
+                    currentComponent += component[idx_letter] + component[idx_letter+1];
+                    idx_letter += 1;
+                }
+                else currentComponent += component[idx_letter];
+            }
+            else currentComponent += component[idx_letter];
+        }
+        addComponents = addComponents.concat(currentComponent);
+        this.components.push(...addComponents);
     }
 
     /** @methodtype remove-method */

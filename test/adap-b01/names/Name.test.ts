@@ -48,7 +48,7 @@ describe("Escape delimiter character", () => {
 describe("Single Escape character in Component", () => {
   it("test single escape in component", () => {
     // Original name string = "oss\cs.fau.de"
-    let n: Name = new Name(["oss\\cs.fau.de"], '.');
+    let n: Name = new Name(["oss\\\\cs.fau.de"], '.');
     expect(n.asString()).toBe("oss\\cs.fau.de");
     n.append("people");
     expect(n.asString()).toBe("oss\\cs.fau.de.people");
@@ -68,7 +68,7 @@ describe("Escape delimiter character + ", () => {
 describe("Escape character in multiple components", () => {
   it("test escape and delimiter boundary conditions", () => {
     // Original name string = "oss\.cs.fau.de"
-    let n: Name = new Name(["oss\\", "cs", "fau\\.", "de"], '.');
+    let n: Name = new Name(["oss\\\\", "cs", "fau\\.", "de"], '.');
     expect(n.getNoComponents()).toBe(4);
     expect(n.asString()).toBe("oss\\.cs.fau..de");
     
@@ -154,5 +154,25 @@ describe("Construct name with four empty components", () => {
     expect(n.getNoComponents()).toBe(4);
     expect(n.asString()).toBe("///");
     //expect(n.asDataString()).toBe("oss\\.cs.fau.de");
+  });
+});
+
+describe("Test inserting complex component", () => {
+  it("test escape and delimiter boundary conditions", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new Name(["os\\\\s\\.cs.fau.de"], '.');
+    n.insert(1, "os\\\\s\\.cs.fau.de");
+    expect(n.asString()).toBe("os\\s.cs.os\\s.cs.fau.de.fau.de");
+    expect(n.asDataString()).toBe("os\\\\s\\.cs.os\\\\s\\.cs.fau.de.fau.de");
+  });
+});
+
+describe("Test appending complex component", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new Name(["os\\\\s\\.cs.fau.de"], '.');
+    n.append( "os\\\\s\\.cs.fau.de");
+    expect(n.asString()).toBe("os\\s.cs.fau.de.os\\s.cs.fau.de");
+    expect(n.asDataString()).toBe("os\\\\s\\.cs.fau.de.os\\\\s\\.cs.fau.de");
   });
 });
