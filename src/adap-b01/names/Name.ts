@@ -1,3 +1,5 @@
+import { a } from "vitest/dist/chunks/suite.d.FvehnV49";
+
 export const DEFAULT_DELIMITER: string = '.';
 export const ESCAPE_CHARACTER = '\\';
 
@@ -17,35 +19,35 @@ export class Name {
 
     private delimiter: string = DEFAULT_DELIMITER;
     private components: string[] = [];
-
+    //TODO Name Functions and Test Switching delimiters
     /** Expects that all Name components are properly masked */
     constructor(other: string[], delimiter?: string) {
         if(delimiter) this.delimiter = delimiter;
-
         let currentComponent: string = "";
         let escaped: boolean = false;
 
         for(let idx_component in other){
             let component: string = other[idx_component];
             for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
-                if (component[idx_letter]==this.delimiter){
-                    if (escaped){
-                        currentComponent = currentComponent + component[idx_letter-1] + component[idx_letter];
-                    }
-                    else {
-                        this.components = this.components.concat(currentComponent);
-                        currentComponent = "";
-                    }
+                if(component[idx_letter]==this.delimiter){
+                    this.components = this.components.concat(currentComponent);
+                    currentComponent = "";
                 }
-                else currentComponent = currentComponent + component[idx_letter]
+                else if(component[idx_letter]===ESCAPE_CHARACTER){
+                    if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                        //Delimiter is to be escaped
+                        currentComponent += component[idx_letter] + component[idx_letter+1];
+                        idx_letter += 1;
+                    }
+                    else currentComponent += component[idx_letter];
+                }
+                else currentComponent += component[idx_letter];
 
-                if (component[idx_letter]==ESCAPE_CHARACTER)escaped = true;
-                else escaped = false;
+
             }
             this.components = this.components.concat(currentComponent);
             currentComponent = "";
         }
-        
     }
 
     /**
@@ -54,7 +56,11 @@ export class Name {
      * Users can vary the delimiter character to be used
      */
     public asString(delimiter: string = this.delimiter): string {
-        return this.components.join(delimiter).replace('\\', '');
+        let outputComponents: string[] = [];
+        for(let idx_component in this.components){
+            outputComponents.push(this.components[idx_component].replaceAll('\\'+this.delimiter, this.delimiter))
+        }
+        return outputComponents.join(delimiter);
     }
 
     /** 
@@ -83,11 +89,13 @@ export class Name {
 
     /** Expects that new Name component c is properly masked */
     public insert(i: number, c: string): void {
+        //TODO
         this.components.splice(i, 0, c);
     }
 
     /** Expects that new Name component c is properly masked */
     public append(c: string): void {
+        //TODO
         this.components.push(c);
     }
 
