@@ -24,7 +24,7 @@ export class Name {
     /** @methodtype Initialisation-method */
     constructor(other: string[], delimiter?: string) {
         if(delimiter) this.delimiter = delimiter;
-
+        
         for(let idx_component in other){
             let component: string = other[idx_component];
             let currentComponent: string = "";
@@ -93,7 +93,28 @@ export class Name {
     /** Expects that new Name component c is properly masked */
     /** @methodtype set-method */
     public setComponent(i: number, c: string): void {
-        this.components[i] = c;
+        //this.components[i] = c;
+
+        let addComponents: string[] = [];
+        let component: string = c;
+        let currentComponent: string = "";
+        for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
+            if(component[idx_letter]==this.delimiter){
+                addComponents = addComponents.concat(currentComponent);
+                currentComponent = "";
+            }
+            else if(component[idx_letter]===ESCAPE_CHARACTER){
+                if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                    //Delimiter is to be escaped
+                    currentComponent += component[idx_letter] + component[idx_letter+1];
+                    idx_letter += 1;
+                }
+                else currentComponent += component[idx_letter];
+            }
+            else currentComponent += component[idx_letter];
+        }
+        addComponents = addComponents.concat(currentComponent);
+        this.components.splice(i, 1, ...addComponents);
     }
 
      /** Returns number of components in Name instance */

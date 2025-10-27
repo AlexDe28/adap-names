@@ -176,3 +176,14 @@ describe("Test appending complex component", () => {
     expect(n.asDataString()).toBe("os\\\\s\\.cs.fau.de.os\\\\s\\.cs.fau.de");
   });
 });
+
+
+describe("Test setting complex component", () => {
+  it("set complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new Name(["os\\\\s\\.cs.fau.de"], '.');
+    n.setComponent(1, "os\\\\s\\.cs.fau.de");
+    expect(n.asString()).toBe("os\\s.cs.os\\s.cs.fau.de.de");
+    expect(n.asDataString()).toBe("os\\\\s\\.cs.os\\\\s\\.cs.fau.de.de");
+  });
+});
