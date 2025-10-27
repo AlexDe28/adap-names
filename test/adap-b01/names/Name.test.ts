@@ -135,14 +135,14 @@ describe("Reconstuct with Escaped Delimiter", () => {
 describe("Reconstuct with Escape Character", () => {
   it("test escape and delimiter boundary conditions", () => {
     // Original name string = "oss.cs.fau.de"
-    let n: Name = new Name(["os\\s\\.cs.fau.de"], '.');
+    let n: Name = new Name(["os\\\\s\\.cs.fau.de"], '.');
     expect(n.getNoComponents()).toBe(3);
     expect(n.asString()).toBe("os\\s.cs.fau.de");
-    expect(n.asDataString()).toBe("os\\s\\.cs.fau.de");
+    expect(n.asDataString()).toBe("os\\\\s\\.cs.fau.de");
     let n2: Name = new Name([n.asDataString()], '.')
     expect(n2.asString()).toBe("os\\s.cs.fau.de");
     expect(n2.getNoComponents()).toBe(3);
-    expect(n2.asDataString()).toBe("os\\s\\.cs.fau.de");
+    expect(n2.asDataString()).toBe("os\\\\s\\.cs.fau.de");
   });
 });
 

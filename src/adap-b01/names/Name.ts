@@ -19,8 +19,9 @@ export class Name {
 
     private delimiter: string = DEFAULT_DELIMITER;
     private components: string[] = [];
-    //TODO Name Functions and Test Switching delimiters
+    //TODO and Test Switching delimiters
     /** Expects that all Name components are properly masked */
+    /** @methodtype Initialisation-method */
     constructor(other: string[], delimiter?: string) {
         if(delimiter) this.delimiter = delimiter;
         let currentComponent: string = "";
@@ -55,6 +56,7 @@ export class Name {
      * Special characters are not escaped (creating a human-readable string)
      * Users can vary the delimiter character to be used
      */
+    /** @methodtype Conversion-method */
     public asString(delimiter: string = this.delimiter): string {
         let outputComponents: string[] = [];
         for(let idx_component in this.components){
@@ -68,37 +70,44 @@ export class Name {
      * Machine-readable means that from a data string, a Name can be parsed back in
      * The special characters in the data string are the default characters
      */
+    /** @methodtype Conversion-method */
     public asDataString(): string {
         return this.components.join(DEFAULT_DELIMITER);
     }
 
     /** Returns properly masked component string */
+    /** @methodtype get-method */
     public getComponent(i: number): string {
         return this.components[i];
     }
 
     /** Expects that new Name component c is properly masked */
+    /** @methodtype set-method */
     public setComponent(i: number, c: string): void {
         this.components[i] = c;
     }
 
      /** Returns number of components in Name instance */
+     /** @methodtype get-method */
      public getNoComponents(): number {
         return this.components.length;
     }
 
     /** Expects that new Name component c is properly masked */
+    /** @methodtype set-method */
     public insert(i: number, c: string): void {
         //TODO
         this.components.splice(i, 0, c);
     }
 
     /** Expects that new Name component c is properly masked */
+    /** @methodtype set-method */
     public append(c: string): void {
         //TODO
         this.components.push(c);
     }
 
+    /** @methodtype remove-method */
     public remove(i: number): void {
         this.components.splice(i,1);
     }
