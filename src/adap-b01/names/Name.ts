@@ -19,7 +19,6 @@ export class Name {
 
     private delimiter: string = DEFAULT_DELIMITER;
     private components: string[] = [];
-    //TODO and Test Switching delimiters
     /** Expects that all Name components are properly masked */
     /** @methodtype Initialisation-method */
     constructor(other: string[], delimiter?: string) {
@@ -93,8 +92,6 @@ export class Name {
     /** Expects that new Name component c is properly masked */
     /** @methodtype set-method */
     public setComponent(i: number, c: string): void {
-        //this.components[i] = c;
-
         let addComponents: string[] = [];
         let component: string = c;
         let currentComponent: string = "";
