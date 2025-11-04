@@ -8,23 +8,35 @@ export class StringName implements Name {
     protected noComponents: number = 0;
 
     constructor(source: string, delimiter?: string) {
-        throw new Error("needs implementation or deletion");
+        if(delimiter) this.delimiter = delimiter;
+
+        this.name = source;
+        this.noComponents = this.countNoComponents();
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
+        let outputName: string = "";
+            for(let idx_letter = 0; idx_letter < this.name.length; idx_letter++){
+                    if(this.name[idx_letter]===ESCAPE_CHARACTER){
+                    //Skip first appearance of escape character
+                    idx_letter += 1;
+                    if(idx_letter < this.name.length)outputName += this.name[idx_letter]
+                    }
+                    else outputName += this.name[idx_letter]
+            }
+            return outputName;
     }
 
     public asDataString(): string {
-        throw new Error("needs implementation or deletion");
+        return this.name;
     }
 
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation or deletion");
+        return this.delimiter;
     }
 
     public isEmpty(): boolean {
-        throw new Error("needs implementation or deletion");
+        return this.name.length === 0;
     }
 
     public getNoComponents(): number {
@@ -52,6 +64,10 @@ export class StringName implements Name {
     }
 
     public concat(other: Name): void {
+        throw new Error("needs implementation or deletion");
+    }
+
+    private countNoComponents(): number {
         throw new Error("needs implementation or deletion");
     }
 
