@@ -40,10 +40,11 @@ export class StringName implements Name {
     }
 
     public getNoComponents(): number {
-        throw new Error("needs implementation or deletion");
+        return this.noComponents;
     }
 
     public getComponent(x: number): string {
+
         throw new Error("needs implementation or deletion");
     }
 
@@ -65,6 +66,32 @@ export class StringName implements Name {
 
     public concat(other: Name): void {
         throw new Error("needs implementation or deletion");
+    }
+
+    private splitComponents(): string[]{
+        let components: string[] = [];
+
+        let currentComponent: string = "";
+        for(let idx_letter = 0; idx_letter < this.name.length; idx_letter++){
+            
+            if(this.name[idx_letter]==this.delimiter){
+                components = components.concat(currentComponent);
+                currentComponent = "";
+            }
+            else if(this.name[idx_letter]===ESCAPE_CHARACTER){
+                if(((idx_letter+1) < this.name.length) && this.name[idx_letter+1]==this.delimiter){
+                    //Delimiter is to be escaped
+                    currentComponent += this.name[idx_letter] + this.name[idx_letter+1];
+                    idx_letter += 1;
+                }
+                else currentComponent += this.name[idx_letter];
+            }
+            else currentComponent += this.name[idx_letter];
+        }
+        components = components.concat(currentComponent);
+
+        return components;
+        
     }
 
     private countNoComponents(): number {
