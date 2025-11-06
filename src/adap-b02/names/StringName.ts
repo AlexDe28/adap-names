@@ -11,7 +11,9 @@ export class StringName implements Name {
         if(delimiter) this.delimiter = delimiter;
 
         this.name = source;
-        this.noComponents = this.countNoComponents();
+
+        let newcomponents: string[] = this.splitComponents();
+        this.noComponents = newcomponents.length;
     }
 
     public asString(delimiter: string = this.delimiter): string {
@@ -44,28 +46,47 @@ export class StringName implements Name {
     }
 
     public getComponent(x: number): string {
-
-        throw new Error("needs implementation or deletion");
+        let components: string[] = this.splitComponents();
+        return components[x];
     }
 
     public setComponent(n: number, c: string): void {
-        throw new Error("needs implementation or deletion");
+        let components: string[] = this.splitComponents();
+
+        components[n] = c;
+        this.name = components.join(this.delimiter);
+        let newcomponents: string[] = this.splitComponents();
+        this.noComponents = newcomponents.length;
     }
 
     public insert(n: number, c: string): void {
-        throw new Error("needs implementation or deletion");
+        let components: string[] = this.splitComponents();
+   
+        components.splice(n, 0, c);
+        this.name = components.join(this.delimiter);
+        let newcomponents: string[] = this.splitComponents();
+        this.noComponents = newcomponents.length;
     }
 
     public append(c: string): void {
-        throw new Error("needs implementation or deletion");
+        this.name = this.name + this.delimiter + c;
+        let newcomponents: string[] = this.splitComponents();
+        this.noComponents = newcomponents.length;
     }
 
     public remove(n: number): void {
-        throw new Error("needs implementation or deletion");
+        let components: string[] = this.splitComponents();
+
+        components.splice(n,1);
+        this.name = components.join(this.delimiter);
+        let newcomponents: string[] = this.splitComponents();
+        this.noComponents = newcomponents.length;
     }
 
     public concat(other: Name): void {
-        throw new Error("needs implementation or deletion");
+        this.name = this.name + this.delimiter + other;
+        let newcomponents: string[] = this.splitComponents();
+        this.noComponents = newcomponents.length;
     }
 
     private splitComponents(): string[]{
@@ -93,9 +114,4 @@ export class StringName implements Name {
         return components;
         
     }
-
-    private countNoComponents(): number {
-        throw new Error("needs implementation or deletion");
-    }
-
 }
