@@ -147,6 +147,7 @@ describe("StringName Escape delimiter character + ", () => {
 describe("StringArrayName Escape character in multiple components", () => {
   it("test escape and delimiter boundary conditions", () => {
     // Original name string = "oss\.cs.fau.de"
+    console.log("StartingTest")
     let n: Name = new StringArrayName(["oss\\\\", "cs", "fau\\.", "de"], '.');
     expect(n.getNoComponents()).toBe(4);
     expect(n.asString()).toBe("oss\\.cs.fau..de");
@@ -473,4 +474,42 @@ describe("StringName Test setting complex component", () => {
 });
 
 
+describe("StringArrayName Test removing complex component", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringArrayName(["os\\\\s\\.cs.fau.de"], '.');
+    n.remove(0);
+    expect(n.asString()).toBe("fau.de");
+    expect(n.asDataString()).toBe("fau.de");
+  });
+});
 
+describe("StringName Test removing complex component", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("os\\\\s\\.cs.fau.de", '.');
+    n.remove(0);
+    expect(n.asString()).toBe("fau.de");
+    expect(n.asDataString()).toBe("fau.de");
+  });
+});
+
+describe("StringArrayName Test removing empty component", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringArrayName(["..."], '.');
+    n.remove(0);
+    expect(n.asString()).toBe("..");
+    expect(n.asDataString()).toBe("..");
+  });
+});
+
+describe("StringName Test removing empty component", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("...", '.');
+    n.remove(0);
+    expect(n.asString()).toBe("..");
+    expect(n.asDataString()).toBe("..");
+  });
+});

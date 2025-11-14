@@ -100,7 +100,9 @@ export class StringName implements Name {
                 currentComponent = "";
             }
             else if(this.name[idx_letter]===ESCAPE_CHARACTER){
-                if(((idx_letter+1) < this.name.length) && this.name[idx_letter+1]==this.delimiter){
+                if(((idx_letter+1) < this.name.length) && 
+                    (this.name[idx_letter+1]==this.delimiter || 
+                    this.name[idx_letter+1]==ESCAPE_CHARACTER)){
                     //Delimiter is to be escaped
                     currentComponent += this.name[idx_letter] + this.name[idx_letter+1];
                     idx_letter += 1;
@@ -110,7 +112,7 @@ export class StringName implements Name {
             else currentComponent += this.name[idx_letter];
         }
         components = components.concat(currentComponent);
-
+        console.log(components);
         return components;
         
     }

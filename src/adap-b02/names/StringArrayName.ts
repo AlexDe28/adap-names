@@ -18,7 +18,9 @@ export class StringArrayName implements Name {
                     currentComponent = "";
                 }
                 else if(component[idx_letter]===ESCAPE_CHARACTER){
-                    if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                    if(((idx_letter+1) < component.length) && 
+                    (component[idx_letter+1]==this.delimiter || 
+                    component[idx_letter+1]==ESCAPE_CHARACTER)){
                         //Delimiter is to be escaped
                         currentComponent += component[idx_letter] + component[idx_letter+1];
                         idx_letter += 1;
@@ -82,7 +84,9 @@ export class StringArrayName implements Name {
                 currentComponent = "";
             }
             else if(component[idx_letter]===ESCAPE_CHARACTER){
-                if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                if(((idx_letter+1) < component.length) && 
+                    (component[idx_letter+1]==this.delimiter || 
+                    component[idx_letter+1]==ESCAPE_CHARACTER)){
                     //Delimiter is to be escaped
                     currentComponent += component[idx_letter] + component[idx_letter+1];
                     idx_letter += 1;
@@ -105,7 +109,9 @@ export class StringArrayName implements Name {
                 currentComponent = "";
             }
             else if(component[idx_letter]===ESCAPE_CHARACTER){
-                if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                if(((idx_letter+1) < component.length) && 
+                (component[idx_letter+1]==this.delimiter || 
+                    component[idx_letter+1]==ESCAPE_CHARACTER)){
                     //Delimiter is to be escaped
                     currentComponent += component[idx_letter] + component[idx_letter+1];
                     idx_letter += 1;
@@ -128,7 +134,9 @@ export class StringArrayName implements Name {
                 currentComponent = "";
             }
             else if(component[idx_letter]===ESCAPE_CHARACTER){
-                if(((idx_letter+1) < component.length) && component[idx_letter+1]==this.delimiter){
+                if(((idx_letter+1) < component.length) && 
+                    (component[idx_letter+1]==this.delimiter || 
+                    component[idx_letter+1]==ESCAPE_CHARACTER)){
                     //Delimiter is to be escaped
                     currentComponent += component[idx_letter] + component[idx_letter+1];
                     idx_letter += 1;
