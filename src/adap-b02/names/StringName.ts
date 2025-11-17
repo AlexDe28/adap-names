@@ -38,7 +38,7 @@ export class StringName implements Name {
     }
 
     public isEmpty(): boolean {
-        return this.name.length === 0;
+        return this.noComponents === 0;
     }
 
     public getNoComponents(): number {
@@ -46,21 +46,31 @@ export class StringName implements Name {
     }
 
     public getComponent(x: number): string {
+        if (this.isEmpty()){
+           let emptyComponent: string[] = [];
+            return emptyComponent[x];
+        }
         let components: string[] = this.splitComponents();
         return components[x];
     }
 
     public setComponent(n: number, c: string): void {
-        let components: string[] = this.splitComponents();
-
+        let components: string[] = [];
+        if (!this.isEmpty()){
+            components= this.splitComponents();
+        }
         components[n] = c;
+
         this.name = components.join(this.delimiter);
         let newcomponents: string[] = this.splitComponents();
         this.noComponents = newcomponents.length;
     }
 
     public insert(n: number, c: string): void {
-        let components: string[] = this.splitComponents();
+        let components: string[] = [];
+        if (!this.isEmpty()){
+            components= this.splitComponents();
+        }
    
         components.splice(n, 0, c);
         this.name = components.join(this.delimiter);
@@ -69,7 +79,13 @@ export class StringName implements Name {
     }
 
     public append(c: string): void {
-        this.name = this.name + this.delimiter + c;
+        if (this.isEmpty()){
+            this.name = c
+        }
+        else{
+            this.name = this.name + this.delimiter + c;
+        }
+        
         let newcomponents: string[] = this.splitComponents();
         this.noComponents = newcomponents.length;
     }
@@ -78,20 +94,32 @@ export class StringName implements Name {
         let components: string[] = this.splitComponents();
 
         components.splice(n,1);
+        console.log(components);
+        
         this.name = components.join(this.delimiter);
+        if(components.length === 0){
+            this.noComponents = 0;
+            return;
+        }
         let newcomponents: string[] = this.splitComponents();
         this.noComponents = newcomponents.length;
     }
 
     public concat(other: Name): void {
-        this.name = this.name + this.delimiter + other;
+        if (this.isEmpty()){
+            this.name = other.asDataString();
+        }
+        else{
+            this.name = this.name + this.delimiter + other.asDataString();
+        }
+
         let newcomponents: string[] = this.splitComponents();
         this.noComponents = newcomponents.length;
     }
 
     private splitComponents(): string[]{
         let components: string[] = [];
-
+        
         let currentComponent: string = "";
         for(let idx_letter = 0; idx_letter < this.name.length; idx_letter++){
             
@@ -112,7 +140,6 @@ export class StringName implements Name {
             else currentComponent += this.name[idx_letter];
         }
         components = components.concat(currentComponent);
-        console.log(components);
         return components;
         
     }

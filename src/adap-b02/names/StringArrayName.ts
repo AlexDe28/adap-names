@@ -151,6 +151,7 @@ export class StringArrayName implements Name {
 
     public remove(i: number): void {
         this.components.splice(i,1);
+        console.log(this.components);
     }
 
     public concat(other: Name): void {

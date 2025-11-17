@@ -513,3 +513,77 @@ describe("StringName Test removing empty component", () => {
     expect(n.asDataString()).toBe("..");
   });
 });
+
+describe("StringArrayName Test Check Empty Positive", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringArrayName([""], '.');
+
+    n.remove(0);
+    expect(n.asString()).toBe("");
+    expect(n.isEmpty()).toBe(true);
+  });
+});
+
+describe("StringName Test Check Empty Positive", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("", '.');
+
+    n.remove(0);
+    expect(n.asString()).toBe("");
+    expect(n.isEmpty()).toBe(true);
+  });
+});
+
+describe("StringArrayName Test Check Empty Append", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringArrayName([""], '.');
+
+    n.remove(0);
+    expect(n.asString()).toBe("");
+    expect(n.isEmpty()).toBe(true);
+    n.append("5");
+    expect(n.asString()).toBe("5");
+    expect(n.isEmpty()).toBe(false);
+  });
+});
+
+describe("StringName Test Check Empty Append", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("", '.');
+
+    n.remove(0);
+    expect(n.asString()).toBe("");
+    expect(n.isEmpty()).toBe(true);
+    n.append("5");
+    expect(n.asString()).toBe("5");
+    expect(n.isEmpty()).toBe(false);
+  });
+});
+
+describe("StringArrayName Test Check Empty Negative", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringArrayName(["5"], '.');
+
+    //n.remove(0);
+    expect(n.asString()).toBe("5");
+    expect(n.isEmpty()).toBe(false);
+  });
+});
+
+describe("StringName Test Check Empty Negative", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("5", '.');
+
+    //n.remove(0);
+    expect(n.asString()).toBe("5");
+    expect(n.isEmpty()).toBe(false);
+  });
+});
+
+
