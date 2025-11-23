@@ -17,9 +17,9 @@ export class StringName extends AbstractName {
     }
 
     /*public clone(): Name {
-        throw new Error("needs implementation or deletion");
+        return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     }
-
+/*
     public asString(delimiter: string = this.delimiter): string {
         throw new Error("needs implementation or deletion");
     }

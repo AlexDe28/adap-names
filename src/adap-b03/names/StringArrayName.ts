@@ -36,8 +36,11 @@ export class StringArrayName extends AbstractName {
         }
     }
 
-    /*public clone(): Name {
-        throw new Error("needs implementation or deletion");
+    public clone(): Name {
+        let clone: StringArrayName = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+        clone.components = [...this.components];
+        
+        return clone;
     }
 
     /*public asString(delimiter: string = this.delimiter): string {

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Name } from "../../../src/adap-b03/names/Name";
-//import { AbstractName } from "../../../src/adap-b03/names/AbstractName";
+import { AbstractName } from "../../../src/adap-b03/names/AbstractName";
 import { StringName } from "../../../src/adap-b03/names/StringName";
 import { StringArrayName } from "../../../src/adap-b03/names/StringArrayName";
 
@@ -584,6 +584,50 @@ describe("StringName Test Check Empty Negative", () => {
     //n.remove(0);
     expect(n.asString()).toBe("5");
     expect(n.isEmpty()).toBe(false);
+  });
+});
+
+describe("Clone StringName", () => {
+  it("Reconstruct Base Test 1", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: StringName = new StringName("oss/cs/fau/de", '/');
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asString()).toBe("oss/cs/fau/de");
+    expect(n.asDataString()).toBe("oss/cs/fau/de");
+    let n2: Name = n.clone();
+    console.log(n2.asDataString())
+    expect(n2.asString()).toBe("oss/cs/fau/de");
+    expect(n2.getNoComponents()).toBe(4);
+    expect(n2.asDataString()).toBe("oss/cs/fau/de");
+    n2.append('tom');
+    expect(n2.asString()).toBe("oss/cs/fau/de/tom");
+    expect(n2.getNoComponents()).toBe(5);
+    expect(n2.asDataString()).toBe("oss/cs/fau/de/tom");
+    expect(n.asString()).toBe("oss/cs/fau/de");
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asDataString()).toBe("oss/cs/fau/de");
+  });
+});
+
+describe("Clone StringArrayName", () => {
+  it("Reconstruct Base Test 1", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: StringArrayName = new StringArrayName(["oss/cs/fau/de"], '/');
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asString()).toBe("oss/cs/fau/de");
+    expect(n.asDataString()).toBe("oss/cs/fau/de");
+    let n2: Name = n.clone();
+    console.log(n2.asDataString())
+    expect(n2.asString()).toBe("oss/cs/fau/de");
+    expect(n2.getNoComponents()).toBe(4);
+    expect(n2.asDataString()).toBe("oss/cs/fau/de");
+    n2.append('tom');
+    expect(n2.asString()).toBe("oss/cs/fau/de/tom");
+    expect(n2.getNoComponents()).toBe(5);
+    expect(n2.asDataString()).toBe("oss/cs/fau/de/tom");
+    expect(n.asString()).toBe("oss/cs/fau/de");
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asDataString()).toBe("oss/cs/fau/de");
   });
 });
 
