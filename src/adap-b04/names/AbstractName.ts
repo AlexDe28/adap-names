@@ -1,11 +1,17 @@
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
+import { InvalidStateException } from "../common/InvalidStateException";
+import { MethodFailedException } from "../common/MethodFailedException";
 
 export abstract class AbstractName implements Name {
 
     protected delimiter: string = DEFAULT_DELIMITER;
 
     constructor(delimiter: string = DEFAULT_DELIMITER) {
+        IllegalArgumentException.assert(this.isValidDelimiterLength(delimiter), "invalid delimiter length");
+        IllegalArgumentException.assert(this.isValidDelimiter(delimiter), "invalid delimiter character");
+
         this.delimiter = delimiter;
     }
 
@@ -82,6 +88,19 @@ export abstract class AbstractName implements Name {
 
     public concat(other: Name): void {
         this.append(other.asDataString());
+    }
+
+
+    protected isValidIndex(i: number): boolean{
+        return i < this.getNoComponents();
+    }
+
+    protected isValidDelimiterLength(delimiter: string):boolean{
+        return delimiter.length === 1
+    }
+
+    protected isValidDelimiter(delimiter: string):boolean{
+        return delimiter !== ESCAPE_CHARACTER
     }
 
 }

@@ -4,6 +4,11 @@ import { Name } from "../../../src/adap-b04/names/Name";
 import { AbstractName } from "../../../src/adap-b04/names/AbstractName";
 import { StringName } from "../../../src/adap-b04/names/StringName";
 import { StringArrayName } from "../../../src/adap-b04/names/StringArrayName";
+import { ESCAPE_CHARACTER } from "../common/Printable";
+
+import { IllegalArgumentException } from "../../../src/adap-b04/common/IllegalArgumentException";
+import { MethodFailedException } from "../../../src/adap-b04/common/MethodFailedException";
+import { InvalidStateException } from "../../../src/adap-b04/common/InvalidStateException";
 
 describe("Basic StringName function tests", () => {
   it("test insert", () => {
@@ -628,6 +633,38 @@ describe("Clone StringArrayName", () => {
     expect(n.asString()).toBe("oss/cs/fau/de");
     expect(n.getNoComponents()).toBe(4);
     expect(n.asDataString()).toBe("oss/cs/fau/de");
+  });
+});
+
+describe("StringName Test Illegal Delimiter", () => {
+  it("test ", async () => {
+    const m: string = "invalid delimiter length";
+
+    expect(() => new StringName("52", '..')).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringName Test Illegal Delimiter as escape character", () => {
+  it("test ", async () => {
+    const m: string = "invalid delimiter character";
+    
+    expect(() => new StringName("52", '\\')).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringArrayName Test Illegal Delimiter", () => {
+  it("test ", async () => {
+    const m: string = "invalid delimiter length";
+
+    expect(() => new StringArrayName(["52"], '..')).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringArrayName Test Illegal Delimiter as escape character", () => {
+  it("test ", async () => {
+    const m: string = "invalid delimiter character";
+    
+    expect(() => new StringArrayName(["52"], '\\')).toThrow(new IllegalArgumentException(m));
   });
 });
 
