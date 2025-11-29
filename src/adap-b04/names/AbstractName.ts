@@ -20,6 +20,7 @@ export abstract class AbstractName implements Name {
     }
 
     public asString(delimiter: string = this.delimiter): string {
+        IllegalArgumentException.assert(this.isEmpty(), "Cannot display empty Name");
         let noComponents: number = this.getNoComponents();
         let outputComponents: string[] = [];
 
@@ -45,6 +46,7 @@ export abstract class AbstractName implements Name {
     }
 
     public asDataString(): string {
+        IllegalArgumentException.assert(this.isEmpty(), "Cannot display empty Name");
         let noComponents: number = this.getNoComponents();
         let outputComponents: string[] = [];
 
@@ -55,11 +57,15 @@ export abstract class AbstractName implements Name {
     }
 
     public isEqual(other: Name): boolean {
+        if (this.isEmpty() && other.isEmpty()) return true;
+        if (this.isEmpty() || other.isEmpty()) return false;
         return this.asDataString() === other.asDataString()
     }
 
     public getHashCode(): number {
         let hashCode: number = 0;
+        if (this.isEmpty()) return hashCode;
+        
         const s: string = this.asDataString();
         for (let i: number = 0; i < s.length; i++) {
             let c: number = s.charCodeAt(i);
@@ -102,5 +108,7 @@ export abstract class AbstractName implements Name {
     protected isValidDelimiter(delimiter: string):boolean{
         return delimiter !== ESCAPE_CHARACTER
     }
+
+    
 
 }
