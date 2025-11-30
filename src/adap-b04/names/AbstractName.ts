@@ -20,7 +20,7 @@ export abstract class AbstractName implements Name {
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        IllegalArgumentException.assert(this.isEmpty(), "Cannot display empty Name");
+        IllegalArgumentException.assert(!this.isEmpty(), "Cannot display empty Name");
         let noComponents: number = this.getNoComponents();
         let outputComponents: string[] = [];
 
@@ -46,7 +46,7 @@ export abstract class AbstractName implements Name {
     }
 
     public asDataString(): string {
-        IllegalArgumentException.assert(this.isEmpty(), "Cannot display empty Name");
+        IllegalArgumentException.assert(!this.isEmpty(), "Cannot display empty Name");
         let noComponents: number = this.getNoComponents();
         let outputComponents: string[] = [];
 

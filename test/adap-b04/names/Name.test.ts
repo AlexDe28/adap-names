@@ -526,7 +526,6 @@ describe("StringArrayName Test Check Empty Positive", () => {
     let n: Name = new StringArrayName([""], '.');
 
     n.remove(0);
-    expect(n.asString()).toBe("");
     expect(n.isEmpty()).toBe(true);
   });
 });
@@ -537,7 +536,6 @@ describe("StringName Test Check Empty Positive", () => {
     let n: Name = new StringName("", '.');
 
     n.remove(0);
-    expect(n.asString()).toBe("");
     expect(n.isEmpty()).toBe(true);
   });
 });
@@ -548,7 +546,6 @@ describe("StringArrayName Test Check Empty Append", () => {
     let n: Name = new StringArrayName([""], '.');
 
     n.remove(0);
-    expect(n.asString()).toBe("");
     expect(n.isEmpty()).toBe(true);
     n.append("5");
     expect(n.asString()).toBe("5");
@@ -562,7 +559,6 @@ describe("StringName Test Check Empty Append", () => {
     let n: Name = new StringName("", '.');
 
     n.remove(0);
-    expect(n.asString()).toBe("");
     expect(n.isEmpty()).toBe(true);
     n.append("5");
     expect(n.asString()).toBe("5");
@@ -668,4 +664,110 @@ describe("StringArrayName Test Illegal Delimiter as escape character", () => {
   });
 });
 
+describe("StringArrayName Test Empty Display AsString", () => {
+  it("test ", async () => {
+    const m: string = "Cannot display empty Name";
+    let n: StringArrayName = new StringArrayName(["oss"], '.');
+    n.remove(0);
+    expect(() => n.asString()).toThrow(new IllegalArgumentException(m));
+  });
+});
 
+describe("StringArrayName Test Empty Display AsDataString", () => {
+  it("test ", async () => {
+    const m: string = "Cannot display empty Name";
+    let n: StringArrayName = new StringArrayName(["oss"], '.');
+    n.remove(0);
+    expect(() => n.asDataString()).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringName Test Empty Display AsString", () => {
+  it("test ", async () => {
+    const m: string = "Cannot display empty Name";
+    let n: StringName = new StringName("oss", '.');
+    n.remove(0);
+    expect(() => n.asString()).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringName Test Empty Display AsDataString", () => {
+  it("test ", async () => {
+    const m: string = "Cannot display empty Name";
+    let n: StringName = new StringName("oss", '.');
+    n.remove(0);
+    expect(() => n.asDataString()).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringArrayName Test Index out of bounds getComponent", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringArrayName = new StringArrayName(["oss"], '.');
+    
+    expect(() => n.getComponent(1)).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringName Test Index out of bounds getComponent", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringName = new StringName("oss", '.');
+    
+    expect(() => n.getComponent(1)).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringArrayName Test Index out of bounds setComponent", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringArrayName = new StringArrayName(["oss"], '.');
+    
+    expect(() => n.setComponent(1, "gurke")).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringName Test Index out of bounds setComponent", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringName = new StringName("oss", '.');
+    
+    expect(() => n.setComponent(1, "gurke")).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringArrayName Test Index out of bounds insert", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringArrayName = new StringArrayName(["oss"], '.');
+    
+    expect(() => n.insert(1, "gurke")).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringName Test Index out of bounds insert", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringName = new StringName("oss", '.');
+    
+    expect(() => n.insert(1, "gurke")).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringArrayName Test Index out of bounds remove", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringArrayName = new StringArrayName(["oss"], '.');
+    
+    expect(() => n.remove(1)).toThrow(new IllegalArgumentException(m));
+  });
+});
+
+describe("StringName Test Index out of bounds remove", () => {
+  it("test ", async () => {
+    const m: string = "index out of bounds";
+    let n: StringName = new StringName("oss", '.');
+    
+    expect(() => n.remove(1)).toThrow(new IllegalArgumentException(m));
+  });
+});

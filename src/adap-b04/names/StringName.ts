@@ -1,6 +1,9 @@
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
+import { InvalidStateException } from "../common/InvalidStateException";
+import { MethodFailedException } from "../common/MethodFailedException";
 
 export class StringName extends AbstractName {
 
@@ -21,6 +24,7 @@ export class StringName extends AbstractName {
     }
 
     public getComponent(i: number): string {
+        IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
         if (this.isEmpty()){
            let emptyComponent: string[] = [];
             return emptyComponent[i];
@@ -30,6 +34,7 @@ export class StringName extends AbstractName {
     }
 
     public setComponent(i: number, c: string) {
+        IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
         let components: string[] = [];
         if (!this.isEmpty()){
             components= this.splitComponents();
@@ -42,6 +47,7 @@ export class StringName extends AbstractName {
     }
 
     public insert(i: number, c: string) {
+        IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
         let components: string[] = [];
         if (!this.isEmpty()){
             components= this.splitComponents();
@@ -66,6 +72,7 @@ export class StringName extends AbstractName {
     }
 
     public remove(i: number) {
+        IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
         let components: string[] = this.splitComponents();
 
         components.splice(i,1);
