@@ -14,7 +14,9 @@ export class Directory extends Node {
     }
 
     public addChildNode(cn: Node): void {
+        IllegalArgumentException.assert(cn != this, "Object cannot add itself");
         IllegalArgumentException.assert(this.hasChildNode(cn), "Object already contains child to be added");
+        
         this.childNodes.add(cn);
     }
 
