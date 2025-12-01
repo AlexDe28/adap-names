@@ -1,5 +1,6 @@
 import { Name } from "../names/Name";
 import { Directory } from "./Directory";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
 
 export class Node {
 

@@ -101,6 +101,10 @@ export abstract class AbstractName implements Name {
         return i < this.getNoComponents();
     }
 
+    protected isValidInsertIndex(i: number): boolean{
+        return i <= this.getNoComponents();
+    }
+
     protected isValidDelimiterLength(delimiter: string):boolean{
         return delimiter.length === 1
     }
@@ -109,6 +113,31 @@ export abstract class AbstractName implements Name {
         return delimiter !== ESCAPE_CHARACTER
     }
 
+    protected isValidComponent(component: string):boolean{
+        if(component == null) return false;
+        let addComponents: string[] = [];
+        let currentComponent: string = "";
+        for(let idx_letter = 0; idx_letter < component.length; idx_letter++){
+            if(component[idx_letter]==this.delimiter){
+                addComponents = addComponents.concat(currentComponent);
+                currentComponent = "";
+            }
+            else if(component[idx_letter]===ESCAPE_CHARACTER){
+                if(((idx_letter+1) < component.length) && 
+                    (component[idx_letter+1]==this.delimiter || 
+                    component[idx_letter+1]==ESCAPE_CHARACTER)){
+                    //Delimiter is to be escaped
+                    currentComponent += component[idx_letter] + component[idx_letter+1];
+                    idx_letter += 1;
+                }
+                else currentComponent += component[idx_letter];
+            }
+            else currentComponent += component[idx_letter];
+        }
+        addComponents = addComponents.concat(currentComponent);
+        if (addComponents.length > 1) return false;
+        return true;
+    }
     
 
 }

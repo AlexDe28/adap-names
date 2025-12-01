@@ -1,5 +1,6 @@
 import { Node } from "./Node";
 import { Directory } from "./Directory";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
 
 export class Link extends Node {
 
@@ -23,11 +24,13 @@ export class Link extends Node {
 
     public getBaseName(): string {
         const target = this.ensureTargetNode(this.targetNode);
+        IllegalArgumentException.assert(target != null, "Target is null");
         return target.getBaseName();
     }
 
     public rename(bn: string): void {
         const target = this.ensureTargetNode(this.targetNode);
+        IllegalArgumentException.assert(target != null, "Target is null");
         target.rename(bn);
     }
 

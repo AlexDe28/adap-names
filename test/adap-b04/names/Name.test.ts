@@ -741,7 +741,7 @@ describe("StringArrayName Test Index out of bounds insert", () => {
     const m: string = "index out of bounds";
     let n: StringArrayName = new StringArrayName(["oss"], '.');
     
-    expect(() => n.insert(1, "gurke")).toThrow(new IllegalArgumentException(m));
+    expect(() => n.insert(2, "gurke")).toThrow(new IllegalArgumentException(m));
   });
 });
 
@@ -750,7 +750,7 @@ describe("StringName Test Index out of bounds insert", () => {
     const m: string = "index out of bounds";
     let n: StringName = new StringName("oss", '.');
     
-    expect(() => n.insert(1, "gurke")).toThrow(new IllegalArgumentException(m));
+    expect(() => n.insert(2, "gurke")).toThrow(new IllegalArgumentException(m));
   });
 });
 

@@ -30,6 +30,8 @@ export class StringName extends AbstractName {
             return emptyComponent[i];
         }
         let components: string[] = this.splitComponents();
+        const component: string = components[i];
+        MethodFailedException.assert(this.isValidComponent(component));
         return components[i];
     }
 
@@ -47,7 +49,7 @@ export class StringName extends AbstractName {
     }
 
     public insert(i: number, c: string) {
-        IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
+        IllegalArgumentException.assert(this.isValidInsertIndex(i), "index out of bounds");
         let components: string[] = [];
         if (!this.isEmpty()){
             components= this.splitComponents();
@@ -74,9 +76,9 @@ export class StringName extends AbstractName {
     public remove(i: number) {
         IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
         let components: string[] = this.splitComponents();
+        const oldNoComponents: number = this.getNoComponents()
 
         components.splice(i,1);
-        console.log(components);
         
         this.name = components.join(this.delimiter);
         if(components.length === 0){
@@ -85,6 +87,7 @@ export class StringName extends AbstractName {
         }
         let newcomponents: string[] = this.splitComponents();
         this.noComponents = newcomponents.length;
+        MethodFailedException.assert(this.getNoComponents() === oldNoComponents - 1, "Removing Component Failed")
     }
 
     private splitComponents(): string[]{

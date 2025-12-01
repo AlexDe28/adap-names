@@ -50,7 +50,9 @@ export class StringArrayName extends AbstractName {
 
     public getComponent(i: number): string {
         IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
-        return this.components[i];
+        const component: string = this.components[i];
+        MethodFailedException.assert(this.isValidComponent(component));
+        return component;
     }
 
     public setComponent(i: number, c: string) {
@@ -80,7 +82,7 @@ export class StringArrayName extends AbstractName {
     }
 
     public insert(i: number, c: string) {
-        IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
+        IllegalArgumentException.assert(this.isValidInsertIndex(i), "index out of bounds");
         let addComponents: string[] = [];
         let component: string = c;
         let currentComponent: string = "";
@@ -132,7 +134,9 @@ export class StringArrayName extends AbstractName {
 
     public remove(i: number) {
         IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
+        const oldNoComponents: number = this.getNoComponents()
         this.components.splice(i,1);
-        console.log(this.components);
+        MethodFailedException.assert(this.getNoComponents() === oldNoComponents - 1, "Removing Component Failed")
     }
+
 }
