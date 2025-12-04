@@ -57,7 +57,26 @@ export class Node {
      * @param bn basename of node being searched for
      */
     public findNodes(bn: string): Set<Node> {
-        throw new Error("needs implementation or deletion");
+        let result: Set<Node> = new Set<Node>();
+
+        let root: Node = this.getRoot();
+        //let root : RootNode = RootNode.getRootNode();
+        if(root.getBaseName() === bn) result.add(this);
+
+        const dirroot : Directory = root as Directory;
+
+        return dirroot.findChild(bn, result);
+
+    }
+
+    private getRoot(): Node{
+        let current: Node = this;
+
+        while(current.getParentNode() !== current){
+            current = this.getParentNode();
+        }
+
+        return current;
     }
 
 }
