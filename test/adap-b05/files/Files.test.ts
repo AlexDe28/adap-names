@@ -75,3 +75,30 @@ describe("Buggy setup test", () => {
     expect(threwException).toBe(true);
   });
 });
+
+function createFileSystemNode(): Node {
+  let rn: RootNode = new RootNode();
+
+  let usr: Directory = new Directory("usr", rn);
+  let bin: Directory = new Directory("bin", usr);
+  let ls: File = new File("ls", bin);
+  let code: File = new File("code", bin);
+
+  let media: Directory = new Directory("media", rn);
+
+  let home: Directory = new Directory("home", rn);
+  let riehle: Directory = new Directory("riehle", home);
+  let bashrc: File = new File(".bashrc", riehle);
+  let wallpaper: File = new File("wallpaper.jpg", riehle);
+  let projects: Directory = new Directory("projects", riehle);
+
+  return code;
+}
+
+describe("Basic naming test", () => {
+  it("test name checking", () => {
+    let fs: Node = createFileSystem();
+    let ls: Node = [...fs.findNodes("ls")][0];
+    expect(ls.getFullName().asString()).toBe(new StringName("/usr/bin/ls", '/').asString());
+  });
+});

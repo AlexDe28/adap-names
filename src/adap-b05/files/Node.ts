@@ -1,5 +1,7 @@
+import { Exception } from "../common/Exception";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
+import { ServiceFailureException } from "../common/ServiceFailureException";
 
 import { Name } from "../names/Name";
 import { Directory } from "./Directory";
@@ -63,9 +65,14 @@ export class Node {
         //let root : RootNode = RootNode.getRootNode();
         if(root.getBaseName() === bn) result.add(this);
 
-        const dirroot : Directory = root as Directory;
+        try{
+            const dirroot : Directory = root as Directory;
 
-        return dirroot.findChild(bn, result);
+            return dirroot.findChild(bn, result);
+        }
+        catch (Exception){
+            throw new ServiceFailureException("Service Failed", Exception as Exception);
+        }
 
     }
 
@@ -73,7 +80,7 @@ export class Node {
         let current: Node = this;
 
         while(current.getParentNode() !== current){
-            current = this.getParentNode();
+            current = current.getParentNode();
         }
 
         return current;
