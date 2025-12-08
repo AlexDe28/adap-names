@@ -11,6 +11,7 @@ import { File } from "../../../src/adap-b05/files/File";
 import { BuggyFile } from "../../../src/adap-b05/files/BuggyFile";
 import { Directory } from "../../../src/adap-b05/files/Directory";
 import { RootNode } from "../../../src/adap-b05/files/RootNode";
+import { Link } from "../../../src/adap-b05/files/Link";
 
 function createFileSystem(): RootNode {
   let rn: RootNode = new RootNode();
@@ -95,10 +96,106 @@ function createFileSystemNode(): Node {
   return code;
 }
 
-describe("Basic naming test", () => {
+describe("Basic naming test from leaf node", () => {
   it("test name checking", () => {
-    let fs: Node = createFileSystem();
+    let fs: Node = createFileSystemNode();
     let ls: Node = [...fs.findNodes("ls")][0];
     expect(ls.getFullName().asString()).toBe(new StringName("/usr/bin/ls", '/').asString());
   });
 });
+
+function createFileSystemMultiplels(): Node {
+  let rn: RootNode = new RootNode();
+
+  let usr: Directory = new Directory("usr", rn);
+  let bin: Directory = new Directory("bin", usr);
+  let ls: File = new File("ls", bin);
+  let code: File = new File("code", bin);
+
+  let media: Directory = new Directory("media", rn);
+
+  let home: Directory = new Directory("home", rn);
+  let riehle: Directory = new Directory("riehle", home);
+  let ls2: File = new File("ls", riehle);
+  let bashrc: File = new File(".bashrc", riehle);
+  let wallpaper: File = new File("wallpaper.jpg", riehle);
+  let projects: Directory = new Directory("projects", riehle);
+
+  return code;
+}
+
+describe("Basic naming test multiple Nodes with searched basename", () => {
+  it("test name checking", () => {
+    let fs: Node = createFileSystemMultiplels();
+    let nodes = [...fs.findNodes("ls")];
+    let ls: Node = nodes[0];
+    expect(ls.getFullName().asString()).toBe(new StringName("/usr/bin/ls", '/').asString());
+    let ls2: Node = nodes[1];
+    expect(ls2.getFullName().asString()).toBe(new StringName("/home/riehle/ls", '/').asString());
+  });
+});
+
+function createFileSystemwithlinktols(): Node {
+  let rn: RootNode = new RootNode();
+
+  let usr: Directory = new Directory("usr", rn);
+  let bin: Directory = new Directory("bin", usr);
+  let ls: File = new File("ls", bin);
+  let code: File = new File("code", bin);
+
+  let media: Directory = new Directory("media", rn);
+
+  let home: Directory = new Directory("home", rn);
+  let riehle: Directory = new Directory("riehle", home);
+  let link: Link = new Link("baum", riehle, ls);
+  let bashrc: File = new File(".bashrc", riehle);
+  let wallpaper: File = new File("wallpaper.jpg", riehle);
+  let projects: Directory = new Directory("projects", riehle);
+
+  return code;
+}
+
+describe("Basic naming test with links", () => {
+  it("test name checking", () => {
+    let fs: Node = createFileSystemwithlinktols();
+    let nodes = [...fs.findNodes("ls")];
+    let ls: Node = nodes[0];
+    expect(ls.getFullName().asString()).toBe(new StringName("/usr/bin/ls", '/').asString());
+    let ls2: Node = nodes[1];
+    expect(ls2.getFullName().asString()).toBe(new StringName("/home/riehle/ls", '/').asString());
+  });
+});
+
+function createFileSystemwithlinknottols(): Node {
+  let rn: RootNode = new RootNode();
+
+  let usr: Directory = new Directory("usr", rn);
+  let bin: Directory = new Directory("bin", usr);
+  let ls: File = new File("ls", bin);
+  let code: File = new File("code", bin);
+
+  let media: Directory = new Directory("media", rn);
+
+  let home: Directory = new Directory("home", rn);
+  let riehle: Directory = new Directory("riehle", home);
+  let link: Link = new Link("baum", riehle, code);
+  let bashrc: File = new File(".bashrc", riehle);
+  let wallpaper: File = new File("wallpaper.jpg", riehle);
+  let projects: Directory = new Directory("projects", riehle);
+
+  return code;
+}
+
+describe("Basic naming test with links", () => {
+  it("test name checking", () => {
+    let fs: Node = createFileSystemwithlinknottols();
+    let nodes = [...fs.findNodes("ls")];
+    let ls: Node = nodes[0];
+    expect(nodes.length).toBe(1);
+    expect(ls.getFullName().asString()).toBe(new StringName("/usr/bin/ls", '/').asString());
+
+  });
+});
+
+
+

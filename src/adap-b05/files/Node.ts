@@ -61,11 +61,10 @@ export class Node {
     public findNodes(bn: string): Set<Node> {
         let result: Set<Node> = new Set<Node>();
 
-        let root: Node = this.getRoot();
-        //let root : RootNode = RootNode.getRootNode();
-        if(root.getBaseName() === bn) result.add(this);
-
         try{
+            let root: Node = this.getRoot();
+            if(root.getBaseName() === bn) result.add(this);
+
             const dirroot : Directory = root as Directory;
 
             return dirroot.findChild(bn, result);
