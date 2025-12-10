@@ -631,6 +631,44 @@ describe("Clone StringArrayName", () => {
   });
 });
 
+describe("StringName Test Equality Negative", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("oss.cs.fau.de", '.');
+    let n2: Name = n.remove(0);
+    expect(n.isEqual(n2)).toBe(false);
+  });
+});
+
+describe("StringArrayName Test Equality Negative", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringArrayName(["oss.cs.fau.de"], '.');
+    let n2: Name = n.remove(0);
+    expect(n.isEqual(n2)).toBe(false);
+  });
+});
+
+describe("StringName Test Equality Positive", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("oss.c\\.s.fau.de", '.');
+    let n2: Name = new StringArrayName(["oss.c\\.s.fau.de"], '.');
+    expect(n.isEqual(n2)).toBe(true);
+  });
+});
+
+describe("StringName Test Equality Positive remove", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("oss.c\\.s.fau.de", '.');
+    let n3: Name = n.append("baum");
+    let n2: Name = new StringArrayName(["oss.c\\.s.fau.de"], '.');
+    let n4: Name = n2.append("baum");
+    expect(n3.isEqual(n4)).toBe(true);
+  });
+});
+
 describe("StringName Test Illegal Delimiter", () => {
   it("test ", async () => {
     const m: string = "invalid delimiter length";
@@ -770,3 +808,5 @@ describe("StringName Test Index out of bounds remove", () => {
     expect(() => n.remove(1)).toThrow(new IllegalArgumentException(m));
   });
 });
+
+
