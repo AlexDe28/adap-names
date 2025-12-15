@@ -63,11 +63,11 @@ export class StringArrayName extends AbstractName {
         let components = [...this.components];
         components[i] = c
 
-        MethodFailedException.assert(components[i] === c, "Component was not saved");
-        MethodFailedException.assert(oldNoComponents === components.length, "Component number has changed");
+        let returnname: StringArrayName = new StringArrayName(components, this.getDelimiterCharacter());
 
-        return new StringArrayName(components, this.getDelimiterCharacter())
-        
+        MethodFailedException.assert(returnname.getComponent(i) === c, "Component was not saved");
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents, "Component number has changed");
+        return returnname
     }
 
     public insert(i: number, c: string): Name {
@@ -78,10 +78,11 @@ export class StringArrayName extends AbstractName {
         let components = [...this.components];
         components.splice(i, 0, c);
 
-        MethodFailedException.assert(components[i] === c, "Component was not saved");
-        MethodFailedException.assert(oldNoComponents + 1 === components.length, "Component number is not oldNoComponents + 1");
+        let returnname: StringArrayName = new StringArrayName(components, this.getDelimiterCharacter());
 
-        return new StringArrayName(components, this.getDelimiterCharacter());
+        MethodFailedException.assert(returnname.getComponent(i) === c, "Component was not saved");
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents + 1, "Component number is not oldNoComponents + 1");
+        return returnname
     }
 
     public append(c: string): Name {
@@ -91,10 +92,12 @@ export class StringArrayName extends AbstractName {
         let components = [...this.components];
         components.push(c);
 
-        MethodFailedException.assert(components[oldNoComponents] === c, "Component was not saved");
-        MethodFailedException.assert(oldNoComponents + 1 === components.length, "Component number is not oldNoComponents + 1");
+        let returnname: StringArrayName = new StringArrayName(components, this.getDelimiterCharacter());
 
-        return new StringArrayName(components, this.getDelimiterCharacter());
+        MethodFailedException.assert(returnname.getComponent(oldNoComponents) === c, "Component was not saved");
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents + 1, "Component number is not oldNoComponents + 1");
+
+        return returnname;
     }
 
     public remove(i: number): Name {
@@ -103,8 +106,10 @@ export class StringArrayName extends AbstractName {
         let components = [...this.components];
         components.splice(i,1);
         
-        MethodFailedException.assert(components.length === oldNoComponents - 1, "Removing Component Failed")
+        let returnname: StringArrayName = new StringArrayName(components, this.getDelimiterCharacter(), components.length === 0);
+        
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents - 1, "Removing Component Failed");
 
-        return new StringArrayName(components, this.getDelimiterCharacter(), components.length === 0);
+        return returnname;
     }
 }
