@@ -58,6 +58,7 @@ export abstract class AbstractName implements Name {
     }
 
     public isEqual(other: Name): boolean {
+        if(this.getDelimiterCharacter()!== other.getDelimiterCharacter())return false;
         if (this.isEmpty() && other.isEmpty()) return true;
         if (this.isEmpty() || other.isEmpty()) return false;
         return this.asDataString() === other.asDataString()
@@ -94,8 +95,11 @@ export abstract class AbstractName implements Name {
     abstract remove(i: number): Name;
 
     public concat(other: Name): Name {
-        this.append(other.asDataString());
-        throw new Error("Not Implemented");
+        let result: Name = this;
+        for (let i = 0; i < other.getNoComponents(); i++){
+            result = result.append(other.getComponent(i))
+        }
+        return result;
     }
 
     protected isValidIndex(i: number): boolean{

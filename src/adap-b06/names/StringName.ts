@@ -26,7 +26,7 @@ export class StringName extends AbstractName {
             this.noComponents = newcomponents.length;
         }
     }
-
+    
     public getNoComponents(): number {
         return this.noComponents;
     }
@@ -46,20 +46,27 @@ export class StringName extends AbstractName {
     public setComponent(i: number, c: string): Name {
         IllegalArgumentException.assert(this.isValidIndex(i), "index out of bounds");
         IllegalArgumentException.assert(this.isValidComponent(c), "Component was not properly masked");
+        const oldNoComponents = this.getNoComponents();
         let components: string[] = [];
         if (!this.isEmpty()){
             components= this.splitComponents();
         }
+        
         components[i] = c;
 
         let name = components.join(this.delimiter);
-        return new StringName(name, this.getDelimiterCharacter())
+        let returnname: StringName = new StringName(name, this.getDelimiterCharacter());
+
+        MethodFailedException.assert(returnname.getComponent(i) === c, "Component was not saved");
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents, "Component number has changed");
+        return returnname
 
     }
 
     public insert(i: number, c: string): Name {
         IllegalArgumentException.assert(this.isValidInsertIndex(i), "index out of bounds");
         IllegalArgumentException.assert(this.isValidComponent(c), "Component was not properly masked");
+        const oldNoComponents = this.getNoComponents();
         let components: string[] = [];
         if (!this.isEmpty()){
             components= this.splitComponents();
@@ -68,19 +75,29 @@ export class StringName extends AbstractName {
         components.splice(i, 0, c);
 
         let name = components.join(this.delimiter);
-        return new StringName(name, this.getDelimiterCharacter())
+        let returnname: StringName = new StringName(name, this.getDelimiterCharacter());
+
+        MethodFailedException.assert(returnname.getComponent(i) === c, "Component was not saved");
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents + 1, "Component number is not oldNoComponents + 1");
+        return returnname
     }
 
     public append(c: string): Name {
         IllegalArgumentException.assert(this.isValidComponent(c), "Component was not properly masked");
+        const oldNoComponents = this.getNoComponents();
+        let name = "";
         if (this.isEmpty()){
-            let name = c
-            return new StringName(name, this.getDelimiterCharacter())
+            name = c
         }
         else{
-            let name = this.name + this.delimiter + c;
-            return new StringName(name, this.getDelimiterCharacter())
+            name = this.name + this.delimiter + c;
         }
+        let returnname: StringName = new StringName(name, this.getDelimiterCharacter());
+
+        MethodFailedException.assert(returnname.getComponent(oldNoComponents) === c, "Component was not saved");
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents + 1, "Component number is not oldNoComponents + 1");
+
+        return returnname;
     }
 
     public remove(i: number): Name {
@@ -91,11 +108,11 @@ export class StringName extends AbstractName {
         components.splice(i,1);
         
         let name = components.join(this.delimiter);
-        return new StringName(name, this.getDelimiterCharacter(), components.length === 0);
+        let returnname: StringName = new StringName(name, this.getDelimiterCharacter(), components.length === 0);
+        
+        MethodFailedException.assert(returnname.getNoComponents() === oldNoComponents - 1, "Removing Component Failed");
 
-        //let newcomponents: string[] = this.splitComponents();
-        //this.noComponents = newcomponents.length;
-        //MethodFailedException.assert(this.getNoComponents() === oldNoComponents - 1, "Removing Component Failed")
+        return returnname;
     }
 
     private splitComponents(): string[]{

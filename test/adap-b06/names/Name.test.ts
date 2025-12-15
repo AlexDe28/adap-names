@@ -174,6 +174,44 @@ describe("StringArrayName Escape delimiter character + ", () => {
   });
 });
 
+describe("StringName test Concat", () => {
+  it("test escape and delimiter boundary conditions single component", () => {
+    // Original name string = "oss\\.cs.fau.de"
+    let n: Name = new StringName("oss\\\\.cs.fau.de", '.');
+    let n2: Name = new StringName("oss\\\\.cs.fau.de", '.');
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asString()).toBe("oss\\.cs.fau.de");
+    expect(n2.getNoComponents()).toBe(4);
+    expect(n2.asString()).toBe("oss\\.cs.fau.de");
+    let n3: Name = n.concat(n2);
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asString()).toBe("oss\\.cs.fau.de");
+    expect(n2.getNoComponents()).toBe(4);
+    expect(n2.asString()).toBe("oss\\.cs.fau.de");
+    expect(n3.getNoComponents()).toBe(8);
+    expect(n3.asString()).toBe("oss\\.cs.fau.de.oss\\.cs.fau.de");
+  });
+});
+
+describe("StringArrayName test Concat", () => {
+  it("test escape and delimiter boundary conditions single component", () => {
+    // Original name string = "oss\\.cs.fau.de"
+    let n: Name = new StringArrayName(["oss\\\\", "cs", "fau", "de"], '.');
+    let n2: Name = new StringArrayName(["oss\\\\", "cs", "fau", "de"], '.');
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asString()).toBe("oss\\.cs.fau.de");
+    expect(n2.getNoComponents()).toBe(4);
+    expect(n2.asString()).toBe("oss\\.cs.fau.de");
+    let n3: Name = n.concat(n2);
+    expect(n.getNoComponents()).toBe(4);
+    expect(n.asString()).toBe("oss\\.cs.fau.de");
+    expect(n2.getNoComponents()).toBe(4);
+    expect(n2.asString()).toBe("oss\\.cs.fau.de");
+    expect(n3.getNoComponents()).toBe(8);
+    expect(n3.asString()).toBe("oss\\.cs.fau.de.oss\\.cs.fau.de");
+  });
+});
+
 describe("StringName Escape delimiter character + ", () => {
   it("test escape and delimiter boundary conditions single component", () => {
     // Original name string = "oss\\.cs.fau.de"
@@ -657,6 +695,16 @@ describe("StringName Test Equality Positive", () => {
     expect(n.isEqual(n2)).toBe(true);
   });
 });
+
+describe("StringName Test Equality Negative Delimiter", () => {
+  it("append complex component", () => {
+    // Original name string = "oss.cs.fau.de"
+    let n: Name = new StringName("oss.c\\.s.fau.de", '.');
+    let n2: Name = new StringArrayName(["oss.c\\.s.fau.de"], '/');
+    expect(n.isEqual(n2)).toBe(false);
+  });
+});
+
 
 describe("StringName Test Equality Positive remove", () => {
   it("append complex component", () => {
